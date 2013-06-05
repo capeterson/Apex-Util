@@ -85,6 +85,12 @@ public with sharing class SObjectDescribe {
 	public static Map<String,SObjectType> getRawGlobalDescribe(){
 		return rawGlobalDescribe;
 	}
+	//Useful when working in heap space constrained environments. 
+	//Existing references to SObjectDescribe instances will continue to work.
+	public static void flushCache(){
+		rawGlobalDescribe = null;
+		globalDescribe = null;
+	}
 
-	public class DuplicateDescribeException extends Exception{}
+	public class DuplicateDescribeException extends Exception{} //Test coverage for this requires APIv28's @testVisbile annotation to force exception cases.
 }
