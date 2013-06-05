@@ -1,5 +1,5 @@
 @isTest
-private class RecordTypeDescribe_test {
+private class TestRecordTypeDescribe {
 	@isTest
 	static void constructor(){
 		RecordType rt = [SELECT id, name, description, developerName, namespacePrefix, sObjectType, isActive 
