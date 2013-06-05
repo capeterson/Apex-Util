@@ -25,7 +25,9 @@ public with sharing class SObjectDescribe {
 		}
 		set;
 	}
-	private SObjectDescribe(Schema.SObjectType token){
+	private SObjectDescribe(Schema.SObjectType token){	
+		if(token == null)
+			throw new InvalidDescribeException('Invalid SObject type: null');
 		if(globalDescribe.containsKey( String.valueOf(token) ))
 			throw new DuplicateDescribeException(token + ' is already in the describe cache');
 		this.token = token;
@@ -64,7 +66,10 @@ public with sharing class SObjectDescribe {
 		SObjectDescribe result = globalDescribe.get(sObjectName.toLowerCase());
 		if(result == null){
 			Schema.SObjectType token = rawGlobalDescribe.get(sObjectName.toLowerCase());
-			result = new SObjectDescribe(token);
+			if(token == null)
+				result = null;
+			else
+				result = new SObjectDescribe(token);
 		}
 		return result;
 	}
@@ -91,6 +96,7 @@ public with sharing class SObjectDescribe {
 		rawGlobalDescribe = null;
 		globalDescribe = null;
 	}
-
-	public class DuplicateDescribeException extends Exception{} //Test coverage for this requires APIv28's @testVisbile annotation to force exception cases.
+	public abstract class DescribeException extends Exception{}
+	public class DuplicateDescribeException extends DescribeException{} //Test coverage for this requires APIv28's @testVisbile annotation to force exception cases.
+	public class InvalidDescribeException extends DescribeException{}
 }

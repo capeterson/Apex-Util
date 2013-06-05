@@ -15,13 +15,24 @@ public without sharing class OrganizationDescribe {
 	}
 
 	//In all situations where chatter is enabled for the org user is feed enabled for user profiles.
-	public  boolean isChatterEnabled(){
+	public boolean isChatterEnabled(){
 		return Schema.SObjectType.User.isFeedEnabled();
 	}
 	//DatedConversionRate type is only valid for advanced MC orgs
-	public static boolean isAdvancedMultiCurrency(){
+	public boolean isAdvancedMultiCurrency(){
 		if(UserInfo.isMultiCurrencyOrganization() && SObjectDescribe.getDescribe('DatedConversionRate') != null)
 			return true;
 		return false;
 	}
+
+	public boolean isManagedPackageInstalled(String namespace){
+		boolean result;
+		try{
+			UserInfo.isCurrentUserLicensed(namespace);
+			result = true; //no exception means it is
+		}catch(System.TypeException ex){
+			result = false;
+		}
+		return result;
+	} 
 }
