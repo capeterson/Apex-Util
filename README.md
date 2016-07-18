@@ -1,3 +1,5 @@
+[![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
+
 ####This repo is no longer being updated. Most of the interesting parts have been ported into https://github.com/financialforcedev/fflib-apex-common, along with much of my newer and more instesting open source work.
 
 ------
